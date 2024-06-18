@@ -38,7 +38,7 @@ void parsing::isType(const std::vector<std::string> &s) {
         for (const auto &entry : std::filesystem::directory_iterator(path)) {
           std::string name = entry.path().filename().string();
           if (name == s[1]) {
-            std::cout << s[1] << " is " << entry.path() << std::endl;
+            std::cout << s[1] << " is " << entry.path().string() << std::endl;
             return;
           }
         }
