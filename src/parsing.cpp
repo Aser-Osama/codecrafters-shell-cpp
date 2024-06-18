@@ -1,9 +1,9 @@
 #include "parsing.hpp"
 #include <algorithm>
+#include <filesystem>
 #include <iostream>
 #include <sstream>
 #include <vector>
-
 void parsing::isExit(const std::vector<std::string> &s) {
   if (s.size() == 1)
     exit(-1);
@@ -30,6 +30,20 @@ void parsing::isType(const std::vector<std::string> &s) {
   } else if (commandMap.contains(s[1])) {
     std::cout << s[1] << " is a shell builtin" << std::endl;
   } else {
+    const char *pathEnv = std::getenv("PATH");
+    if (pathEnv) {
+      std::string paths_string = pathEnv;
+      std::vector<std::string> paths = helpers::string_split(paths_string, ':');
+      for (const auto &path : paths) {
+        for (const auto &entry : std::filesystem::directory_iterator(path)) {
+          std::string name = entry.path().filename().string();
+          if (name == s[1]) {
+            std::cout << s[1] << " is " << entry.path() << std::endl;
+            return;
+          }
+        }
+      }
+    }
     std::cout << s[1] << ": not found" << std::endl;
   }
 }
