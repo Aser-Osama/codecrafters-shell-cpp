@@ -55,8 +55,7 @@ std::string parsing::existsInPath(const std::string &s) {
   return "";
 }
 
-void parsing::execExternal(const std::vector<std::string> &s,
-                           std::string path) {
+void parsing::isExternal(const std::vector<std::string> &s, std::string path) {
   std::string cmd = path + " ";
   for (size_t i = 1; i < s.size(); i++) {
     cmd += s[i] + " ";
@@ -64,11 +63,15 @@ void parsing::execExternal(const std::vector<std::string> &s,
   // std::cout << cmd;
   system(cmd.c_str());
 }
+void parsing::isPwd(const std::vector<std::string> &s) {
+  std::cout << std::filesystem::current_path().string() << std::endl;
+}
 
 const std::unordered_map<std::string, parsing::func> parsing::commandMap = {
     {"exit", parsing::isExit},
     {"echo", parsing::isEcho},
-    {"type", parsing::isType}};
+    {"type", parsing::isType},
+    {"pwd", parsing::isPwd}};
 
 void parsing::parseCommand(const std::vector<std::string> &s) {
   if (s.empty() || s[0].empty())
@@ -82,7 +85,7 @@ void parsing::parseCommand(const std::vector<std::string> &s) {
     if (path.empty()) {
       std::cout << s[0] << ": command not found" << std::endl;
     } else {
-      execExternal(s, path);
+      isExternal(s, path);
     }
   }
 }
