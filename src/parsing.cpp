@@ -30,22 +30,39 @@ void parsing::isType(const std::vector<std::string> &s) {
   } else if (commandMap.contains(s[1])) {
     std::cout << s[1] << " is a shell builtin" << std::endl;
   } else {
-    const char *pathEnv = std::getenv("PATH");
-    if (pathEnv) {
-      std::string paths_string = pathEnv;
-      std::vector<std::string> paths = helpers::string_split(paths_string, ':');
-      for (const auto &path : paths) {
-        for (const auto &entry : std::filesystem::directory_iterator(path)) {
-          std::string name = entry.path().filename().string();
-          if (name == s[1]) {
-            std::cout << s[1] << " is " << entry.path().string() << std::endl;
-            return;
-          }
+    std::string path = existsInPath(s[1]);
+    if (!path.empty())
+      std::cout << s[1] << " is " << path << std::endl;
+    else
+      std::cout << s[1] << ": not found" << std::endl;
+  }
+}
+
+std::string parsing::existsInPath(const std::string &s) {
+  const char *pathEnv = std::getenv("PATH");
+  if (pathEnv) {
+    std::string paths_string = pathEnv;
+    std::vector<std::string> paths = helpers::string_split(paths_string, ':');
+    for (const auto &path : paths) {
+      for (const auto &entry : std::filesystem::directory_iterator(path)) {
+        std::string name = entry.path().filename().string();
+        if (name == s) {
+          return entry.path().string();
         }
       }
     }
-    std::cout << s[1] << ": not found" << std::endl;
   }
+  return "";
+}
+
+void parsing::execExternal(const std::vector<std::string> &s,
+                           std::string path) {
+  std::string cmd = path + " ";
+  for (size_t i = 1; i < s.size(); i++) {
+    cmd += s[i] + " ";
+  }
+  // std::cout << cmd;
+  system(cmd.c_str());
 }
 
 const std::unordered_map<std::string, parsing::func> parsing::commandMap = {
@@ -61,6 +78,11 @@ void parsing::parseCommand(const std::vector<std::string> &s) {
   if (it != commandMap.end()) {
     it->second(s);
   } else {
-    std::cout << s[0] << ": command not found" << std::endl;
+    std::string path = existsInPath(s[0]);
+    if (path.empty()) {
+      std::cout << s[0] << ": command not found" << std::endl;
+    } else {
+      execExternal(s, path);
+    }
   }
 }

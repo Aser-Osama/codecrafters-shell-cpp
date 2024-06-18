@@ -12,6 +12,8 @@ private:
   static void isExit(const std::vector<std::string> &s);
   static void isEcho(const std::vector<std::string> &s);
   static void isType(const std::vector<std::string> &s);
+  static void execExternal(const std::vector<std::string> &s, std::string path);
+  static std::string existsInPath(const std::string &s);
   using func = std::function<void(const std::vector<std::string> &)>;
   static const std::unordered_map<std::string, func> commandMap;
 
