@@ -41,7 +41,7 @@ void isType(const std::vector<std::string> &s) {
   if (s.size() == 1 || s[1].empty()) {
     return;
   } else if (commandMap.contains(s[1])) {
-    std::cout << s[1] << " is a builtin" << std::endl;
+    std::cout << s[1] << " is a shell builtin" << std::endl;
   } else {
     std::cout << s[1] << ": not found" << std::endl;
   }
