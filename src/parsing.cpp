@@ -1,34 +1,21 @@
 #include "parsing.hpp"
 #include <algorithm>
-#include <functional>
 #include <iostream>
 #include <sstream>
-#include <unordered_map>
-#include <unordered_set>
 #include <vector>
-namespace parsing {
 
-namespace {
-
-void isExit(const std::vector<std::string> &s);
-void isEcho(const std::vector<std::string> &s);
-void isType(const std::vector<std::string> &s);
-using func = std::function<void(const std::vector<std::string> &)>;
-static const std::unordered_map<std::string, func> commandMap = {
-    {"exit", isExit}, {"echo", isEcho}, {"type", isType}};
-
-void isExit(const std::vector<std::string> &s) {
+void parsing::isExit(const std::vector<std::string> &s) {
   if (s.size() == 1)
     exit(-1);
 
   std::string end = s[1];
-  if (!(!end.empty() && std::all_of(end.begin(), end.end(), isdigit)))
-    exit(-1);
-  else
+  if (!end.empty() && std::all_of(end.begin(), end.end(), isdigit))
     exit(std::stoi(s[1]));
+  else
+    exit(-1);
 }
 
-void isEcho(const std::vector<std::string> &s) {
+void parsing::isEcho(const std::vector<std::string> &s) {
   for (size_t i = 1; i < s.size(); i++) {
     std::cout << s[i];
     if (i != s.size() - 1)
@@ -37,7 +24,7 @@ void isEcho(const std::vector<std::string> &s) {
   std::cout << '\n';
 }
 
-void isType(const std::vector<std::string> &s) {
+void parsing::isType(const std::vector<std::string> &s) {
   if (s.size() == 1 || s[1].empty()) {
     return;
   } else if (commandMap.contains(s[1])) {
@@ -47,9 +34,12 @@ void isType(const std::vector<std::string> &s) {
   }
 }
 
-} // namespace
+const std::unordered_map<std::string, parsing::func> parsing::commandMap = {
+    {"exit", parsing::isExit},
+    {"echo", parsing::isEcho},
+    {"type", parsing::isType}};
 
-void parseCommand(const std::vector<std::string> &s) {
+void parsing::parseCommand(const std::vector<std::string> &s) {
   if (s.empty() || s[0].empty())
     return;
 
@@ -60,5 +50,3 @@ void parseCommand(const std::vector<std::string> &s) {
     std::cout << s[0] << ": command not found" << std::endl;
   }
 }
-
-}; // namespace parsing
