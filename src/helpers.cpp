@@ -1,7 +1,7 @@
 #include "helpers.hpp"
+#include <algorithm>
 #include <sstream>
 #include <vector>
-
 namespace helpers {
 std::vector<std::string> split(const std::string &s, char delim) {
   std::vector<std::string> result;
@@ -24,7 +24,7 @@ void isExit(std::vector<std::string> s) {
       exit(-1);
 
     std::string end = s[1];
-    if (!(!end.empty() && all_of(end.begin(), end.end(), isdigit)))
+    if (!(!end.empty() && std::all_of(end.begin(), end.end(), isdigit)))
       exit(-1);
     else
       exit(std::stoi(s[1]));
@@ -32,4 +32,4 @@ void isExit(std::vector<std::string> s) {
     return;
 }
 
-}
+} // namespace helpers
