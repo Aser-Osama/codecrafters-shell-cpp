@@ -20,13 +20,11 @@ std::vector<std::string> split(const std::string &s, char delim) {
 
 void isExit(std::vector<std::string> s) {
   if (s[0] == "exit") {
-    exit(0); // to pass exit builtin test
-
     if (s.size() == 1)
       exit(-1);
 
     std::string end = s[1];
-    if (!(!end.empty() && std::all_of(end.begin(), end.end(), isdigit)))
+    if (!(!end.empty() && all_of(end.begin(), end.end(), isdigit)))
       exit(-1);
     else
       exit(std::stoi(s[1]));
