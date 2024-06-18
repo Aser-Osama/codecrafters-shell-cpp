@@ -1,3 +1,4 @@
+#include "helpers.hpp"
 #include <iostream>
 
 int main() {
@@ -11,6 +12,10 @@ int main() {
     std::string input;
     std::getline(std::cin, input);
 
-    std::cout << input << ": command not found" << std::endl;
+    std::vector<std::string> input_vector = helpers::split(input, ' ');
+
+    helpers::isExit(input_vector);
+
+    std::cout << input_vector[0] << ": command not found" << std::endl;
   }
 }
