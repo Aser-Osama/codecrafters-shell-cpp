@@ -5,7 +5,7 @@
 #include <vector>
 
 namespace parsing {
-void parseCommand(std::vector<std::string> s);
+void parseCommand(const std::vector<std::string> &s);
 } // namespace parsing
 
 #endif // PARSING_H
