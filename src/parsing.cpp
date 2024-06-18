@@ -19,9 +19,11 @@ void isExit(std::vector<std::string> s) {
 }
 void isEcho(std::vector<std::string> s) {
   for (size_t i = 1; i < s.size(); i++) {
-    std::cout << s[i] << " ";
+    std::cout << s[i];
+    if (i != s.size() - 1)
+      std::cout << ' ';
   }
-  std::cout << std::endl;
+  std::cout << '\n';
 }
 
 } // namespace
