@@ -7,7 +7,7 @@
 
 void parsing::isExit(const std::vector<std::string> &s) {
   if (s.size() == 1)
-    exit(-1);
+    exit(0);
 
   std::string end = s[1];
   if (!end.empty() && std::all_of(end.begin(), end.end(), isdigit))
@@ -17,18 +17,19 @@ void parsing::isExit(const std::vector<std::string> &s) {
 }
 
 void parsing::isEcho(const std::vector<std::string> &s) {
-  for (size_t i = 1; i < s.size(); i++) {
+  size_t end = s.size() - 1;
+  for (size_t i = 1; i < end; i++) {
     std::cout << s[i];
-    if (i != s.size() - 1)
-      std::cout << ' ';
+    std::cout << ' ';
   }
-  std::cout << '\n';
+  std::cout << s[end] << std::endl;
 }
 
 void parsing::isType(const std::vector<std::string> &s) {
-  if (s.size() == 1 || s[1].empty()) {
+  if (s.size() == 1 || s[1].empty())
     return;
-  } else if (commandMap.contains(s[1])) {
+
+  if (commandMap.contains(s[1])) {
     std::cout << s[1] << " is a shell builtin" << std::endl;
   } else {
     std::string path = existsInPath(s[1]);
@@ -63,9 +64,11 @@ void parsing::isExternal(const std::vector<std::string> &s, std::string path) {
   }
   system(cmd.c_str());
 }
+
 void parsing::isPwd(const std::vector<std::string> &s) {
   std::cout << std::filesystem::current_path().string() << std::endl;
 }
+
 void parsing::isCd(const std::vector<std::string> &s) {
   if (s.size() == 1 || s[1].empty())
     return;
@@ -84,12 +87,6 @@ void parsing::isCd(const std::vector<std::string> &s) {
     std::cout << "cd: " << s[1] << ": No such file or directory" << std::endl;
   }
 }
-const std::unordered_map<std::string, parsing::func> parsing::commandMap = {
-    {"exit", parsing::isExit},
-    {"echo", parsing::isEcho},
-    {"type", parsing::isType},
-    {"pwd", parsing::isPwd},
-    {"cd", parsing::isCd}};
 
 void parsing::parseCommand(const std::vector<std::string> &s) {
   if (s.empty() || s[0].empty())
@@ -107,3 +104,10 @@ void parsing::parseCommand(const std::vector<std::string> &s) {
     }
   }
 }
+
+const std::unordered_map<std::string, parsing::func> parsing::commandMap = {
+    {"exit", parsing::isExit},
+    {"echo", parsing::isEcho},
+    {"type", parsing::isType},
+    {"pwd", parsing::isPwd},
+    {"cd", parsing::isCd}};
