@@ -61,15 +61,19 @@ void parsing::isExternal(const std::vector<std::string> &s, std::string path) {
   for (size_t i = 1; i < s.size(); i++) {
     cmd += s[i] + " ";
   }
-  // std::cout << cmd;
   system(cmd.c_str());
 }
 void parsing::isPwd(const std::vector<std::string> &s) {
   std::cout << std::filesystem::current_path().string() << std::endl;
 }
 void parsing::isCd(const std::vector<std::string> &s) {
+  if (s.size() == 1 || s[1].empty())
+    return;
+
   if (std::filesystem::exists(s[1])) {
     std::filesystem::current_path(s[1]);
+  } else {
+    std::cout << "cd: " << s[1] << ": No such file or directory" << std::endl;
   }
 }
 const std::unordered_map<std::string, parsing::func> parsing::commandMap = {
