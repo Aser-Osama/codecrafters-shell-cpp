@@ -18,6 +18,10 @@ void parsing::isExit(const std::vector<std::string> &s) {
 
 void parsing::isEcho(const std::vector<std::string> &s) {
   size_t end = s.size() - 1;
+  if (end < 1) {
+    std::cout << std::endl;
+    return;
+  }
   for (size_t i = 1; i < end; i++) {
     std::cout << s[i];
     std::cout << ' ';
