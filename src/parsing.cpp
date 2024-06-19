@@ -73,6 +73,14 @@ void parsing::isCd(const std::vector<std::string> &s) {
   if (std::filesystem::exists(s[1])) {
     std::filesystem::current_path(s[1]);
   } else {
+    if (s[1] == "~") {
+      const char *pathEnv = std::getenv("HOME");
+      if (pathEnv) {
+        std::string home_path = pathEnv;
+        std::filesystem::current_path(home_path);
+        return;
+      }
+    }
     std::cout << "cd: " << s[1] << ": No such file or directory" << std::endl;
   }
 }
