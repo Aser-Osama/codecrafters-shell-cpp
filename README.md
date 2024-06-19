@@ -1,35 +1,31 @@
-[![progress-banner](https://backend.codecrafters.io/progress/shell/1c6631e8-4cb2-4711-9752-baf1ca38ca77)](https://app.codecrafters.io/users/codecrafters-bot?r=2qF)
 
-This is a starting point for C++ solutions to the
-["Build Your Own Shell" Challenge](https://app.codecrafters.io/courses/shell/overview).
+# Custom Shell Implementation
 
-In this challenge, you'll build your own POSIX compliant shell that's capable of
-interpreting shell commands, running external programs and builtin commands like
-cd, pwd, echo and more. Along the way, you'll learn about shell command parsing,
-REPLs, builtin commands, and more.
+This repository contains a custom shell implementation written in C++. The shell is designed to interpret and execute commands, including built-in commands like `cd`, `pwd`, and `echo` as well as any external programs present in the user's `$PATH`.
 
-**Note**: If you're viewing this repo on GitHub, head over to
-[codecrafters.io](https://codecrafters.io) to try the challenge.
+## Project Setup
 
-# Passing the first stage
+### Prerequisites
 
-The entry point for your `shell` implementation is in `src/main.cpp`. Study and
-uncomment the relevant code, and push your changes to pass the first stage:
+Ensure you have [cmake](https://cmake.org/getting-started/) and [vcpkg](https://github.com/microsoft/vcpkg?tab=readme-ov-file#getting-started) installed on your system to build the project. \
+Make sure `$VCPKG_ROOT` is set to be the root directory of your vcpkg install.
+
+### Building the Project
+
+Clone the repository and build the project:
 
 ```sh
-git add .
-git commit -m "pass 1st stage" # any msg
-git push origin master
+git clone https://github.com/Aser-Osama/codecrafters-shell-cpp.git
+cd codecrafters-shell-cpp
 ```
 
-Time to move on to the next stage!
+### Running the Shell
 
-# Stage 2 & beyond
+Build and execute the shell using:
 
-Note: This section is for stages 2 and beyond.
+```sh
+./your_shell
+```
 
-1. Ensure you have `cmake` installed locally
-1. Run `./your_shell.sh` to run your program, which is implemented in
-   `src/main.cpp`.
-1. Commit your changes and run `git push origin master` to submit your solution
-   to CodeCrafters. Test output will be streamed to your terminal.
+This command starts the shell in interactive mode, allowing you to input and execute commands.
+
