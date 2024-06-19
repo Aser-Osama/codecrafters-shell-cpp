@@ -89,9 +89,7 @@ const std::unordered_map<std::string, parsing::func> parsing::commandMap = {
     {"echo", parsing::isEcho},
     {"type", parsing::isType},
     {"pwd", parsing::isPwd},
-    {"cd", parsing::isCd}
-
-};
+    {"cd", parsing::isCd}};
 
 void parsing::parseCommand(const std::vector<std::string> &s) {
   if (s.empty() || s[0].empty())
